@@ -33,7 +33,8 @@ const userSchema = new Schema({
         purchaseQuantity: { type: Number, required: true }
       }
     ]
-  }
+  },
+  token: String
 })
 
-module.exports = ('User', userSchema);
+module.exports =mongoose.model('User', userSchema);
