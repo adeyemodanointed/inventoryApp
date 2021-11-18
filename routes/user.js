@@ -2,7 +2,7 @@ const User = require('../models/user');
 
 const express = require('express');
 const router = express.Router();
-const { body } = require('express-validator');
+const { body, check } = require('express-validator');
 
 const userController = require('../controllers/userController');
 
@@ -15,17 +15,11 @@ router.post('/register',
       .normalizeEmail(),
     body('password')
       .trim()
-      .isEmpty()
+      .isString()
       .isLength({min: 8}),
     body('name')
       .trim()
-      .isEmpty(),
-    body('userRole')
-      .custom(value => {
-        if(value != 1 || value != 2) {
-          return Promise.reject('Invalid user role.');
-        }
-      })
+      .isString()
   ], userController.register
 );
 

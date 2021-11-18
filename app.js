@@ -1,5 +1,5 @@
 require("dotenv").config();
-require("./config/database").connect();
+const db = require("./config/database");
 const express = require("express");
 
 const bodyParser = require("body-parser");
@@ -9,12 +9,14 @@ const port = process.env.PORT;
 
 const productRoutes = require("./routes/product");
 const userRoutes = require("./routes/user");
+const cartRoutes = require("./routes/cart");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/product", productRoutes);
 app.use("/user", userRoutes);
+app.use("/cart", cartRoutes);
 
 app.use((error, req, res, next) => {
   console.error(error);
@@ -25,4 +27,6 @@ app.use((error, req, res, next) => {
 });
 
 // app.get('/', (req, res) => res.send('Hello World!'))
-app.listen(port);
+db.connect().then(() => {
+  app.listen(port);
+});
